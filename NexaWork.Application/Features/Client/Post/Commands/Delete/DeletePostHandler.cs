@@ -39,7 +39,10 @@ public class DeletePostHandler : IRequestHandler<DeletePostCommand>
         
         if(post.CustomerId != customer.CustomerId)
             throw new UnauthorizedAccessException("You can only delete your own posts.");
-        
+
+        var comments = _unitOfWork.Comments.Where(c => c.PostId == request.PostId);
+        _unitOfWork.Comments.RemoveRange(comments);
+
         _postRepository.Remove(post);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
     }

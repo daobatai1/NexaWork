@@ -25,7 +25,7 @@ public class CommentsController : Controller
         return Ok(commentId);
     }
     
-    [HttpPut("update/{postId}")]
+    [HttpPut("update/{commentId}")]
     public async Task<IActionResult> Update(Guid commentId, [FromBody] UpdateCommentCommand command)
     {
         if (commentId != command.CommentId)
@@ -34,7 +34,7 @@ public class CommentsController : Controller
         return NoContent();
     }
     
-    [HttpDelete("delete/{postId}")]
+    [HttpDelete("delete/{commentId}")]
     public async Task<IActionResult> Delete(Guid commentId)
     {
         await _mediator.Send(new DeleteCommentCommand(commentId));

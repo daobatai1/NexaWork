@@ -37,6 +37,7 @@ public class CommentRepository : ICommentRepository
     public async Task<List<Comment>> GetAllCommentByPostIdAsync(Guid postId, CancellationToken cancellationToken)
     {
         return await _context.Comments
+            .Include(c => c.Customer)
             .AsNoTracking()
             .Where(c => c.PostId == postId)
             .ToListAsync(cancellationToken);
