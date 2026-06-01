@@ -53,6 +53,8 @@ public class Post
             SharesCount = 0
         };
     }
+    
+    
 
     public void Update(string content, string? newMediaUrl, VisibilityLevel visibility)
     {
@@ -63,6 +65,16 @@ public class Post
         {
             MediaUrl = newMediaUrl;
         }
+    }
+
+    public void UpdateLikesCount()
+    {
+        LikesCount++;
+    }
+
+    public void DecrementLikesCount()
+    {
+        LikesCount--;
     }
 
     // public void Delete()

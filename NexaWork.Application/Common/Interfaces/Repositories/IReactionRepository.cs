@@ -9,13 +9,7 @@ namespace NexaWork.Application.Common.Interfaces.Repositories
     {
         void Add(Reaction reaction);
         void Remove(Reaction reaction);
-
-        Task<Reaction?> GetPostReactionAsync(Guid customerId, Guid postId, CancellationToken cancellationToken);
-
-        Task<Reaction?> GetCommentReactionAsync(Guid customerId, Guid commentId, CancellationToken cancellationToken);
-
-        Task<List<Reaction>> GetReactionsForPostAsync(Guid postId, CancellationToken cancellationToken);
-
-        Task<List<Reaction>> GetReactionsForCommentAsync(Guid commentId, CancellationToken cancellationToken);
+        Task<Reaction?> GetByCustomerIdAndPostIdAsync(Guid customerId, Guid postId, CancellationToken cancellationToken = default);
+        Task<bool> ExistsAsync(Guid customerId, Guid postId, CancellationToken cancellationToken = default);
     }
 }

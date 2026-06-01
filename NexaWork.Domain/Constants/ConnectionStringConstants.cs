@@ -8,7 +8,6 @@ public static class ConnectionStringConstants
     //public const string ConnectionString = "Server= localhost, 1433; Database=NexaWorkDatabase; User Id=sa; password=lohosum619@@; TrustServerCertificate=True; Trusted_Connection=False; MultipleActiveResultSets=true;";
     //public const string ConnectionString = "Server= 192.168.1.16; Database=NexaWorkDatabase; User Id=sa; password=lohosum619@@; TrustServerCertificate=True; Trusted_Connection=False; MultipleActiveResultSets=true;";
     public const string ConnectionString = "Server= 100.125.57.47; Database=NexaWorkDatabase; User Id=sa; password=lohosum619@@; TrustServerCertificate=True; Trusted_Connection=False; MultipleActiveResultSets=true;";
-
     public const string IPAddress = "localhost";
     public const string Port = "1433";
 }
