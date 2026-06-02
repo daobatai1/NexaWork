@@ -1,5 +1,4 @@
 using FluentValidation;
-using NexaWork.Application.Features.Client.Reaction.Commands.Create;
 
 namespace NexaWork.Application.Features.Client.Reaction.Commands.Delete;
 

@@ -19,7 +19,13 @@ namespace NexaWork.Client.Controllers
         {
             _mediator = mediator;
         }
-        
+
+
+        /// <summary>
+        /// Tao reaction moi cho bai viet
+        /// </summary>
+        /// <param name="postId"></param>
+        /// <returns></returns>
         [HttpPost("new-reaction{postId:guid}")]
         public async Task<IActionResult> CreateReaction(Guid postId)
         {
@@ -27,13 +33,23 @@ namespace NexaWork.Client.Controllers
             return NoContent();
         }
 
+        /// <summary>
+        /// Xoa reaction cua bai viet
+        /// </summary>
+        /// <param name="postId"></param>
+        /// <returns></returns>
         [HttpDelete("delete-reaction{postId:guid}")]
         public async Task<IActionResult> DeleteReaction(Guid postId)
         {
             await _mediator.Send(new DeleteReactionCommand(postId));
             return NoContent();
         }
-        
+
+        /// <summary>
+        /// Lay reaction cua bai viet, neu co thi tra ve true, nguoc lai tra ve false
+        /// </summary>
+        /// <param name="postId"></param>
+        /// <returns></returns>
         [HttpGet("get-post-reaction{postId:guid}")]
         public async Task<bool> GetPostReaction(Guid postId)
         {

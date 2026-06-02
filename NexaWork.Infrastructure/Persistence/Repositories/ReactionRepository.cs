@@ -35,12 +35,26 @@ namespace NexaWork.Infrastructure.Persistence.Repositories
             _context.Reactions.Remove(reaction);
         }
 
+        /// <summary>
+        /// Lay reaction cua customerId va postId, de xoa reaction do
+        /// </summary>
+        /// <param name="customerId"></param>
+        /// <param name="postId"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         public async Task<Reaction?> GetByCustomerIdAndPostIdAsync(Guid customerId, Guid postId, CancellationToken cancellationToken = default)
         {
             return await _context.Reactions
                 .FirstOrDefaultAsync(r => r.CustomerId == customerId && r.PostId == postId, cancellationToken);
         }
 
+        /// <summary>
+        /// Ham kiem tra xem customer da react voi post chua, de tranh truong hop react 2 lan
+        /// </summary>
+        /// <param name="customerId"></param>
+        /// <param name="postId"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         public async Task<bool> ExistsAsync(Guid customerId, Guid postId, CancellationToken cancellationToken = default)
         {
             return await _context.Reactions
