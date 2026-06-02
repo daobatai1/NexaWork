@@ -1,4 +1,3 @@
-using System;
 using NexaWork.Domain.Entities;
 
 namespace NexaWork.Application.Common.Interfaces.Repositories;

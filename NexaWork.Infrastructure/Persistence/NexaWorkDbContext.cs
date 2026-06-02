@@ -77,5 +77,7 @@ public class NexaWorkDbContext : DbContext, INexaWorkDbContext
 
     public DbSet<CustomerSocialLink> CustomerSocialLinks => Set<CustomerSocialLink>();
     public DbSet<CustomerAddress> CustomerAddresses => Set<CustomerAddress>();
+
+    public object Reaction { get; internal set; }
     // public DbSet<Skill> Skills { get; set; }
 }

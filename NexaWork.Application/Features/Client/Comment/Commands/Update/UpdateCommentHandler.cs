@@ -13,6 +13,7 @@ public class UpdateCommentHandler : IRequestHandler<UpdateCommentCommand>
     private readonly ICurrentUserService _currentUserService;
     private readonly ICustomerRepository _customerRepository;
 
+
     public UpdateCommentHandler(
         ICommentRepository commentRepository,
         INexaWorkDbContext unitOfWork,

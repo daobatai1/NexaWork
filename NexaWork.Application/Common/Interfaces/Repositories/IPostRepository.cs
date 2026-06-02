@@ -29,5 +29,7 @@ public interface IPostRepository
 
     void Update(Post post);
 
+    void UpdateLikesCount(int likeCounts);
+
     void Remove(Post post);
 }

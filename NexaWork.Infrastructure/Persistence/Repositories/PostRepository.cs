@@ -48,6 +48,11 @@ public class PostRepository : IPostRepository
         _context.Posts.Update(post);
     }
 
+    public void UpdateLikesCount(int likeCounts)
+    {
+        throw new NotImplementedException();
+    }
+
     public void Remove(Post post)
     {
         _context.Posts.Remove(post);

@@ -19,11 +19,13 @@ public class ReactionConfiguration : IEntityTypeConfiguration<Reaction>
         builder.HasOne(r => r.Post)
                .WithMany(p => p.Reactions)
                .HasForeignKey(r => r.PostId)
-               .OnDelete(DeleteBehavior.NoAction);
+               //.OnDelete(DeleteBehavior.NoAction);
+               .OnDelete(DeleteBehavior.Cascade);
 
         builder.HasOne(r => r.Comment)
                .WithMany(c => c.Reactions)
                .HasForeignKey(r => r.CommentId)
                .OnDelete(DeleteBehavior.NoAction);
+               //.OnDelete(DeleteBehavior.Cascade);
     }
 }

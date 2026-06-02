@@ -54,7 +54,7 @@ namespace NexaWork.AuthServer.Controllers
             var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, isPersistent: false, lockoutOnFailure: false);
 
             if (result.Succeeded)
-            {
+            {   
                 // // Search for an existing customer linked to this IdentityUser
                 // var customerExists = await _mediator.Send(new GetCustomerByIdentityIdQuery(user.Id));
                 // if (customerExists == null)
