@@ -1,62 +1,47 @@
 using MediatR;
-using NexaWork.Application.Common.Interfaces;
 using NexaWork.Application.Common.Interfaces.Repositories;
 using NexaWork.Application.Common.Interfaces.Services;
-using NexaWork.Domain.Enums;
-using Microsoft.EntityFrameworkCore;
 
 
 namespace NexaWork.Application.Features.Client.Post.Queries.GetAll;
 
 public class GetAllPostsHandler : IRequestHandler<GetAllPostsQuery, List<PostQueryDTO>>
 {
-    //private readonly IPostRepository _postRepository;
-    private readonly INexaWorkDbContext _context;
     private readonly ICurrentUserService _currentUserService;
+    private readonly ICustomerRepository _customerRepository;
+    private readonly IPostRepository _postRepository;
 
     public GetAllPostsHandler(
-        //IPostRepository postRepository,
-        INexaWorkDbContext context,
-        ICurrentUserService currentUserService
+        ICurrentUserService currentUserService,
+        IPostRepository postRepository,
+        ICustomerRepository customerRepository
     )
     {
-        //_postRepository = postRepository;
-        _context = context;
+        _postRepository = postRepository;
+        _customerRepository = customerRepository;
         _currentUserService = currentUserService;
     }
+
     public async Task<List<PostQueryDTO>> Handle(GetAllPostsQuery request, CancellationToken cancellationToken)
     {
         var userIdentityId = _currentUserService.UserId;
-        var currentCustomer = await _context.Customers
-            .AsNoTracking()
-            .FirstOrDefaultAsync(c => c.IdentityUserId == userIdentityId, cancellationToken);
-        var currentCustomerId = currentCustomer?.CustomerId ?? Guid.Empty;
+        var currentCustomer = await _customerRepository.GetByIdentityIdAsync(userIdentityId, cancellationToken);
+        if (currentCustomer == null)
+            throw new UnauthorizedAccessException(
+                "This request cannot be processed without authentication. Please log in to continue.");
 
-        //var customerAvatar = currentCustomer?.ProfilePictureUrl ?? string.Empty;
+        var posts = await _postRepository.GetAllAsync(currentCustomer.CustomerId, cancellationToken);
 
-        return await _context.Posts
-            .AsNoTracking()
-            .Where(post =>
-                post.Visibility == VisibilityLevel.Public ||
-                post.CustomerId == currentCustomerId ||
-                (post.Visibility == VisibilityLevel.Connections &&
-                 _context.Connections.Any(conn =>
-                     conn.Status == ConnectionStatus.Accepted &&
-                     ((conn.CustomerId == post.CustomerId && conn.ConnectedCustomerId == currentCustomerId) ||
-                      (conn.CustomerId == currentCustomerId && conn.ConnectedCustomerId == post.CustomerId))
-                 ))
-            )
-            //.Include(async post  => post.CustomerId == await _customerRepository.GetCustomerByIdAsync(post.CustomerId, cancellationToken))
-            .OrderByDescending(p => p.CreatedAt)
+
+        return posts
             .Select(post => new PostQueryDTO
             (
                 post.PostId,
                 post.CustomerId,
                 string.IsNullOrWhiteSpace(post.Customer.FirstName) && string.IsNullOrWhiteSpace(post.Customer.LastName)
                     ? "Anonymous User" // If both are null
-                    : (post.Customer.FirstName + " " + post.Customer.LastName).Trim(), // Trim to remove any extra space if one of them is null
-
-                //post.Customer.ProfilePictureUrl,
+                    : (post.Customer.FirstName + " " + post.Customer.LastName)
+                    .Trim(), // Trim to remove any extra space if one of them is null
                 string.IsNullOrEmpty(post.Customer.ProfilePictureUrl) ? null : post.Customer.ProfilePictureUrl,
                 //customerAvatar,
                 post.Content,
@@ -68,7 +53,7 @@ public class GetAllPostsHandler : IRequestHandler<GetAllPostsQuery, List<PostQue
                 post.CreatedAt,
                 post.UpdatedAt
             ))
-            .ToListAsync(cancellationToken);
+            .ToList();
     }
 }
 
