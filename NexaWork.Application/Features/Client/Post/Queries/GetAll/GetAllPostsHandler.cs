@@ -51,6 +51,7 @@ public class GetAllPostsHandler : IRequestHandler<GetAllPostsQuery, List<PostQue
             .Select(post => new PostQueryDTO
             (
                 post.PostId,
+                post.CustomerId,
                 string.IsNullOrWhiteSpace(post.Customer.FirstName) && string.IsNullOrWhiteSpace(post.Customer.LastName)
                     ? "Anonymous User" // If both are null
                     : (post.Customer.FirstName + " " + post.Customer.LastName).Trim(), // Trim to remove any extra space if one of them is null
