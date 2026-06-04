@@ -60,8 +60,6 @@ public class PostRepository : IPostRepository
             .Where(post => post.CustomerId == customerId && post.Visibility == VisibilityLevel.Public)
             .OrderByDescending(p => p.CreatedAt)
             .ToListAsync(cancellationToken);
-            
-            
     }
 
 
